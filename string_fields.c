@@ -4,11 +4,11 @@
  * get_precision - gets the precision from the format string
  * @p: the format string
  * @params: the parameters struct
- * @ar_list: variadic pointer
+ * @ap: the argument pointer
  *
  * Return: new pointer
  */
-char *get_precision(char *p, params_t *params, va_list ar_list)
+char *get_precision(char *p, params_t *params, va_list ap)
 {
 	int d = 0;
 
@@ -17,7 +17,7 @@ char *get_precision(char *p, params_t *params, va_list ar_list)
 	p++;
 	if (*p == '*')
 	{
-		d = va_arg(ar_list, int);
+		d = va_arg(ap, int);
 		p++;
 	}
 	else

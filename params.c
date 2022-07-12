@@ -3,11 +3,11 @@
 /**
  * init_params - clears struct fields and reset buf
  * @params: the parameters struct
- * @ar_list: variadic pointer
+ * @ap: the argument pointer
  *
  * Return: void
  */
-void init_params(params_t *params, va_list ar_list)
+void init_params(params_t *params, va_list ap)
 {
 	params->unsign = 0;
 
@@ -22,5 +22,5 @@ void init_params(params_t *params, va_list ar_list)
 
 	params->h_modifier = 0;
 	params->l_modifier = 0;
-	(void)ar_list;
+	(void)ap;
 }

@@ -1,19 +1,20 @@
 #include "main.h"
 
 /**
- * check_specifier - search and return the correct function
+ * get_specifier - finds the format func
  * @s: the format string
- * Return: return a function (if written correctly)
+ *
+ * Return: the number of bytes printed
  */
-int (*check_specifier(char *s))(va_list ar_list, params_t *params)
+int (*get_specifier(char *s))(va_list ap, params_t *params)
 {
 	specifier_t specifiers[] = {
 		{"c", print_char},
-		{"s", print_string},
 		{"d", print_int},
 		{"i", print_int},
-		{"b", print_binary},
+		{"s", print_string},
 		{"%", print_percent},
+		{"b", print_binary},
 		{"o", print_octal},
 		{"u", print_unsigned},
 		{"x", print_hex},
@@ -38,19 +39,19 @@ int (*check_specifier(char *s))(va_list ar_list, params_t *params)
 }
 
 /**
- *get_print_func - finds the format func
+ * get_print_func - finds the format func
  * @s: the format string
- * @ar_list: argument pointer
+ * @ap: argument pointer
  * @params: the parameters struct
  *
  * Return: the number of bytes printed
  */
-int get_print_func(char *s, va_list ar_list, params_t *params)
+int get_print_func(char *s, va_list ap, params_t *params)
 {
-	int (*f)(va_list, params_t *) = check_specifier(s);
+	int (*f)(va_list, params_t *) = get_specifier(s);
 
 	if (f)
-		return (f(ar_list, params));
+		return (f(ap, params));
 	return (0);
 }
 
@@ -113,18 +114,18 @@ int get_modifier(char *s, params_t *params)
  * get_width - gets the width from the format string
  * @s: the format string
  * @params: the parameters struct
- * @ar_list: argument pointer
+ * @ap: the argument pointer
  *
  * Return: new pointer
  */
-char *get_width(char *s, params_t *params, va_list ar_list)
-/* should this function use char**s and modify the pointer? */
+char *get_width(char *s, params_t *params, va_list ap)
+/* should this function use char **s and modify the pointer? */
 {
 	int d = 0;
 
 	if (*s == '*')
 	{
-		d = va_arg(ar_list, int);
+		d = va_arg(ap, int);
 		s++;
 	}
 	else

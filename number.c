@@ -39,21 +39,21 @@ char *convert(long int num, int base, int flags, params_t *params)
 
 /**
  * print_unsigned - prints unsigned integer numbers
- * @ar_list: argument pointer
+ * @ap: argument pointer
  * @params: the parameters struct
  *
  * Return: bytes printed
  */
-int print_unsigned(va_list ar_list, params_t *params)
+int print_unsigned(va_list ap, params_t *params)
 {
 	unsigned long l;
 
 	if (params->l_modifier)
-		l = (unsigned long)va_arg(ar_list, unsigned long);
+		l = (unsigned long)va_arg(ap, unsigned long);
 	else if (params->h_modifier)
-		l = (unsigned short int)va_arg(ar_list, unsigned int);
+		l = (unsigned short int)va_arg(ap, unsigned int);
 	else
-		l = (unsigned int)va_arg(ar_list, unsigned int);
+		l = (unsigned int)va_arg(ap, unsigned int);
 	params->unsign = 1;
 	return (print_number(convert(l, 10, CONVERT_UNSIGNED, params), params));
 }
@@ -62,14 +62,14 @@ int print_unsigned(va_list ar_list, params_t *params)
 
 /**
  * print_address - prints address
- * @ar_list: argument pointer
+ * @ap: argument pointer
  * @params: the parameters struct
  *
  * Return: bytes printed
  */
-int print_address(va_list ar_list, params_t *params)
+int print_address(va_list ap, params_t *params)
 {
-	unsigned long int n = va_arg(ar_list, unsigned long int);
+	unsigned long int n = va_arg(ap, unsigned long int);
 	char *str;
 
 	if (!n)
