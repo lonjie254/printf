@@ -1,49 +1,49 @@
 #include "main.h"
 
 /**
- * _printf - main function to print in console
+ * _printf - prints and input into the std output
  * @format: array to print and check type
+ *
  * Return: count of character printed
  */
 int _printf(const char *format, ...)
 {
-	int count = -1;
+  int sum = 0;
+  va_list ar_list;
+  char *p, *start;
+  params_t params = PARAMS_INIT;
 
-	if (format != NULL)
+  va_start(ar_list, format);
+
+  if (!format || (format[0] == '%' && !format[1]))/* checking for NULL character*/
+		return (-1);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (p = (char *)format; *p; p++)
 	{
-		int i;
-		va_list ar_list;
-		int (*o)(va_list);
-
-		va_start(ar_list, format);
-
-		if (format[0] == '%' && format[1] == '\0')
-			return (-1);
-
-		count = 0;
-
-		for (i = 0; format[i] != '\0'; i++)
+		init_params(&params, ar_list);
+		if (*p != '%')/*checking for the % specifier*/
 		{
-			if (format[i] == '%')
-			{
-				if (format[i + 1] == '%')
-				{
-					count +=
-						_putchar(format[i]);
-					i++;
-				}
-				else if (format[i + 1] != '\0')
-				{
-					o = check_specifier(format[i + 1]);
-					count += (o ? o(ar_list) : _putchar(format[i]) + _putchar(format[i + 1]));
-					i++;
-				}
-			}
-			else
-				count += _putchar(format[i]);
+			sum += _putchar(*p);
+			continue;
 		}
-		va_end(ar_list);
+		start = p;
+		p++;
+		while (get_flag(p, &params)) /* while char at p is flag char */
+		{
+			p++; /* next char */
+		}
+		p = get_width(p, &params, ar_list);
+		p = get_precision(p, &params, ar_list);
+		if (get_modifier(p, &params))
+			p++;
+		if (!check_specifier(p))
+			sum += print_from_to(start, p,
+				params.l_modifier || params.h_modifier ? p - 1 : 0);
+		else
+			sum += get_print_func(p, ap, &params);
 	}
-
-	return (count);
+	_putchar(BUF_FLUSH);
+	va_end(ar_list);
+	return (sum);
 }
