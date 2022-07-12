@@ -10,4 +10,4 @@ The _printf() function produces output according to a format which is described 
 
 
 
-This a group project for Andrew Mwase 0498drew@github.com and Longinus Wawere lonjie254@github.com
+This a group project for Andrew Mwase 0498drew@github.com and Longinus Waweru lonjie254@github.com
